@@ -1,22 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import Task from "./Task"
-import { CATEGORIES, TASKS } from "../data";
+// import { CATEGORIES, TASKS } from "../data";
 
-function TaskList(props) {
-  const lowerTasks = TASKS
+function TaskList( {filter, passedTasks} ) {
 
-  const filteredTasks = lowerTasks.filter(task => {
-    if (props.filter === "All") {
-      return lowerTasks
+  // const [deleted, setDeleted] = useState(false)
+
+  const filteredTasks = passedTasks.filter(task => {
+    if (filter === "All") {
+      return passedTasks
     } else {
-   return task.category.toLowerCase().includes(props.filter.toLowerCase())
+   return task.category.toLowerCase().includes(filter.toLowerCase())
     }
   })
 
-  // console.log(filteredTasks)
+  const handleDelete = (e) => {
+    e.target.parentElement.remove() 
+  }
+
   const allTasks = filteredTasks.map((task) => {
-    // console.log(task.text)
-    return <Task key={task.text} text={task.text} category={task.category}/>
+    return <Task onDelete={handleDelete} key={task.text} text={task.text} category={task.category}/>
   })
 
   return (
